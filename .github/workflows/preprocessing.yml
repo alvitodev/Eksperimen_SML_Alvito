@@ -1,0 +1,40 @@
+name: Automated Data Preprocessing
+
+# Workflow ini akan berjalan setiap kali ada push ke branch main
+# atau bisa dijalankan manual (workflow_dispatch)
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  preprocess-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install Requirements
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Preprocessing Script
+        run: |
+          cd preprocessing
+          python automate_Alvito.py
+
+      - name: Commit and Push Results
+        # Mengecek apakah ada perubahan/file baru, lalu push ke repo
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add telco_preprocessing/
+          git commit -m "Auto-generate preprocessed data" || echo "No changes to commit"
+          git push
