@@ -1,7 +1,7 @@
 name: Automated Data Preprocessing
 
 # Workflow ini akan berjalan setiap kali ada push ke branch main
-# atau bisa dijalankan manual (workflow_dispatch)
+# atau bisa dijalankan manual (workflow_dispatch) 
 on:
   push:
     branches:
